@@ -125,10 +125,18 @@ else
 endif
 
 # sources, objects and dependecies
+MODULES_SRC_DIR := $(addprefix $(SDIR)/,$(MODULES))
+MODULES_OBJ_DIR := $(addprefix obj/,$(MODULES))
+MODULES_SRC := $(foreach sdir,$(MODULES_SRC_DIR),$(wildcard $(sdir)/*.cc))
+MODULES_OBJ := $(patsubst $(SDIR)/%.cc,$(ODIR)/%.o,$(MODULES_SRC))
+
+
 SRCS     = $(wildcard $(SDIR)/*.c)
 SRCS    += $(wildcard $(SDIR)/*.cc)
+SRCS    += $(MODULES_SRC)
 OBJS     = $(patsubst $(SDIR)/%.c,$(ODIR)/%.o,$(wildcard $(SDIR)/*.c))
 OBJS    += $(patsubst $(SDIR)/%.cc,$(ODIR)/%.o,$(wildcard $(SDIR)/*.cc))
+OBJS    += $(MODULES_OBJ)
 LIBOBJS  = $(filter-out $(ODIR)/main.o, $(OBJS))
 DEPS     = $(OBJS:.o=.d)
 
@@ -383,6 +391,7 @@ $(BDIR):
 $(ODIR):
 	@echo "MKDIR $@"
 	@mkdir $(ODIR)
+	@mkdir -p $(MODULES_OBJ_DIR)
 
 $(IDIR):
 	@echo "MKDIR $@"

@@ -2,7 +2,7 @@
 PREFIX ?=
 
 # project name (directory name is used if left blank)
-PROJECT = exe
+PROJECT = app.exe
 
 # project version
 VERSION    = 1
@@ -10,8 +10,22 @@ SUBVERSION = 0
 PATCHLEVEL = 0
 
 # library and include paths (space separated value)
-LIBRARY_DIR =
-INCLUDE_DIR =
+MAIN_INCLUDE_DIR:= $(shell pwd)/include
+LIBRARY_DIR = 
+
+#待验证,需要包含的头文件路径是第三方库的,自己写的头文件,即使嵌套目录也不需要指定
+#INCLUDE_DIR = $(MAIN_INCLUDE_DIR)/Module1
+
+# define custom moudules
+
+MODULES := Module1
+
+
+
+# output makefile debug info
+$(info "###-----------------------------------")
+$(info $(MAIN_INCLUDE_DIR))
+$(info $(INCLUDE_DIR))
 
 # static and shared libraries to be linked (space separated values)
 STATIC_LIBRARIES =

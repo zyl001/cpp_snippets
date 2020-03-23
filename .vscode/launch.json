@@ -1,0 +1,78 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {            
+          "name": "(gdb) Attach",            
+          "type": "cppdbg",            
+          "request": "attach",            
+          "program": "${workspaceFolder}/bin/app ",            
+          "processId": "${command:pickProcess}",            
+          "MIMode": "gdb",            
+          "setupCommands": [                
+              {                    
+              "description": "Enable pretty-printing for gdb",                    
+              "text": "-enable-pretty-printing",                    
+              "ignoreFailures": true                
+              },                
+              {                    
+              "description": "Enable print elements",                    
+              "text": "-interpreter-exec console \"set print elements 0\"",                    
+              "ignoreFailures": true                
+              }            
+              ]        
+        },
+        {
+            "name": "C++ Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "targetArchitecture": "x64",
+            "program": "${workspaceRoot}/bin/app.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            
+            "externalConsole": false,
+            // "customLaunchSetupCommands": [
+            //   { "text": "target-run", "description": "run target", "ignoreFailures": false }
+            // ],
+            "launchCompleteCommand": "exec-run",
+            "linux": {
+              "MIMode": "gdb",
+              "miDebuggerPath": "/usr/bin/gdb",
+              "miDebuggerServerAddress": "192.168.88.201:8888", //
+            },
+            "osx": {
+              "MIMode": "lldb"
+            },
+            "windows": {
+              "MIMode": "gdb",
+              "miDebuggerPath": "C:\\MinGw\\bin\\gdb.exe"
+            },
+            
+            // 鼠标悬挂查看变量值，使用pretty print 配置
+            "setupCommands": [{        
+                "description": "Enable pretty-printing for gdb",
+                "text": "-enable-pretty-printing",
+                "ignoreFailures": true
+            },
+            {
+                //不加载远程so文件，不调试动态链接库，跳过read xxx.so from remote target，能减少每次调试准备时间
+                "text": "set sysroot"
+            },
+            { 
+              "description": "Enable print elements",                    
+              "text": "-interpreter-exec console \"set print elements 0\"",                    
+              "ignoreFailures": true                }
+            ],
+            // VS Code debug的日志信息，能清楚gdb加载和运行的各种过程，如果没有其他用途可以注释
+            "logging": {
+                "moduleLoad": false,
+                "trace": true,
+                "engineLogging": true,
+                "exceptions": true
+                // "traceResponse": true
+             }
+          }
+    ]
+  }
